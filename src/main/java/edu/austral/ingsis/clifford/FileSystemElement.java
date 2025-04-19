@@ -39,7 +39,7 @@ public abstract class FileSystemElement {
     return "/" + String.join("/", path);
   }
 
-  public boolean isDirectory(){};
+  public abstract boolean isDirectory();
 
 
 }
