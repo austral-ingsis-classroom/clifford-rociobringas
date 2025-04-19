@@ -10,6 +10,6 @@ public class TouchCommand implements Command{
   @Override
   public String execute(FileSystem fileSystem) {
     fileSystem.createFile(fileName);
-    return fileName + " created";
+    return "'" + fileName + "' file created";
   }
 }

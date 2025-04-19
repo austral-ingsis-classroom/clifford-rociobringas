@@ -10,6 +10,6 @@ public class MkdirCommand implements Command {
   @Override
   public String execute(FileSystem fileSystem) {
     fileSystem.createDirectory(directoryName);
-    return directoryName + " directory created";
+    return "'" + directoryName + "' directory created";
   }
 }

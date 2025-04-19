@@ -12,6 +12,6 @@ public class RmCommand implements Command{
   @Override
   public String execute(FileSystem fileSystem) {
     fileSystem.remove(name,recursive);
-    return name + " deleated succesfully";
+    return "'" + name + "' removed";
   }
 }
