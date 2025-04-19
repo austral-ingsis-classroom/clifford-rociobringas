@@ -1,7 +1,7 @@
 package edu.austral.ingsis.clifford;
 
 public class CdCommand implements Command{
-  String path;
+  private final String path;
 
   public CdCommand(String path){
     this.path = path;
