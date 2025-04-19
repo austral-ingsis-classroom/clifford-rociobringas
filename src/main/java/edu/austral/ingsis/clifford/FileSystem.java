@@ -99,14 +99,8 @@ public class FileSystem {
       throw new NoSuchElementException("No such file or directory: " + name);
     }
 
-    if (toRemove.isDirectory()) {
-      Directory dirToRemove = (Directory) toRemove;
-
-      if (!recursive) {
-        throw new IllegalStateException("Cannot remove directory without --recursive: " + name);
-      }
-
-      deleteDirectoryRecursively(dirToRemove);
+    if (toRemove.isDirectory() && !recursive) {
+      throw new IllegalStateException("cannot remove '" + name + "', is a directory");
     }
 
     currentDirectory.removeChild(toRemove);
@@ -123,5 +117,7 @@ public class FileSystem {
     }
   }
 
-
+  public Directory getCurrentDirectory() {
+    return currentDirectory;
+  }
 }
