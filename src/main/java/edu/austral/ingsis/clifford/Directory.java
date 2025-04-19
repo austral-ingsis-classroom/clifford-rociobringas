@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Directory extends FileSystemElement {
+
+  private List<FileSystemElement> children = new ArrayList<>();
+
   public Directory(String name, Directory parent) {
     super(name, parent);
   }
@@ -13,14 +16,13 @@ public class Directory extends FileSystemElement {
     return true;
   }
 
-  private List<FileSystemElement> children = new ArrayList<>();
-
   public void addChild(FileSystemElement child) {
     children.add(child); }
 
   public void removeChild(FileSystemElement child) {
     children.remove(child); }
 
-  public List<FileSystemElement> getChildren() {
+  public List<FileSystemElement> listChildren() {
     return children; }
+
 }
