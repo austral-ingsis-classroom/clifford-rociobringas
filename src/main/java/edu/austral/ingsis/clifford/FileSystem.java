@@ -24,24 +24,35 @@ public class FileSystem {
   String getCurrentPath(){
     return currentDirectory.getPath();
   }
-
   void changeDirectory(String path) {
     String[] parts = path.split("/");
 
-    if (parts.length > 0 && parts[0].isEmpty()) { // Elimino el "" inicial
+    if (parts.length > 0 && parts[0].isEmpty()) { // Si empieza con "/", eliminar vacío
       parts = Arrays.copyOfRange(parts, 1, parts.length);
     }
 
-    Directory current = root;
+    Directory current = path.startsWith("/") ? root : currentDirectory;
 
-    if (!current.getName().equals(parts[0])) {
-      throw new NoSuchElementException("Wrong path");
+    if (parts.length == 0) {
+      currentDirectory = current;
+      return;
     }
-
-    parts = Arrays.copyOfRange(parts, 1, parts.length);
 
     while (parts.length > 0) {
       String element = parts[0];
+
+      if (element.equals(".")) {
+        parts = Arrays.copyOfRange(parts, 1, parts.length);
+        continue;
+      }
+
+      if (element.equals("..")) {
+        if (current.getParent() != null) {
+          current = current.getParent();
+        }
+        parts = Arrays.copyOfRange(parts, 1, parts.length);
+        continue;
+      }
 
       boolean found = false;
       for (FileSystemElement child : current.listChildren()) {
@@ -53,7 +64,7 @@ public class FileSystem {
       }
 
       if (!found) {
-        throw new NoSuchElementException("Wrong path");
+        throw new NoSuchElementException("'" + element + "' directory does not exist");
       }
 
       parts = Arrays.copyOfRange(parts, 1, parts.length);

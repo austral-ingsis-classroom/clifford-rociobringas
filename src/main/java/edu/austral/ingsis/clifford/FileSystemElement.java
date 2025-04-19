@@ -18,6 +18,10 @@ public abstract class FileSystemElement {
     return name;
   }
 
+  public Directory getParent() {
+    return parent;
+  }
+
   public String getPath() {
     if (parent == null) {
       return "/"; // Estoy en el root
