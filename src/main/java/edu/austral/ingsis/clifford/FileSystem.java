@@ -76,6 +76,10 @@ public class FileSystem {
   public List<FileSystemElement> list(String order) {
     List<FileSystemElement> elements = new ArrayList<>(currentDirectory.listChildren());
 
+    if (order == null) {
+      return elements;
+    }
+
     if ("asc".equals(order)) {
       elements.sort(Comparator.comparing(FileSystemElement::getName));
     } else if ("desc".equals(order)) {
@@ -99,8 +103,11 @@ public class FileSystem {
       throw new NoSuchElementException("No such file or directory: " + name);
     }
 
-    if (toRemove.isDirectory() && !recursive) {
-      throw new IllegalStateException("cannot remove '" + name + "', is a directory");
+    if (toRemove.isDirectory()) {
+      if (!recursive) {
+        throw new IllegalStateException("cannot remove '" + name + "', is a directory");
+      }
+      deleteDirectoryRecursively((Directory) toRemove);
     }
 
     currentDirectory.removeChild(toRemove);

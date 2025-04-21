@@ -16,9 +16,8 @@ public class LsCommand implements Command {
     String result = "";
 
     for (int i = 0; i < elements.size(); i++) {
-      // porque hago toString me da error porque es una lista
       result += elements.get(i).getName();
-      if (i < elements.size() - 1) { // para agregar espacio entre los nombres
+      if (i < elements.size() - 1) {
         result += " ";
       }
     }
