@@ -1,6 +1,5 @@
 package edu.austral.ingsis.clifford;
 
-
 import java.util.List;
 
 public class LsCommand implements Command {
@@ -25,4 +24,3 @@ public class LsCommand implements Command {
     return result;
   }
 }
-

@@ -11,19 +11,20 @@ public class FileSystem {
     this.currentDirectory = root;
   }
 
-  void createFile(String name){
+  void createFile(String name) {
     File newFile = new File(name, currentDirectory);
     currentDirectory.addChild(newFile);
   }
 
-  void createDirectory(String name){
+  void createDirectory(String name) {
     Directory newDirectory = new Directory(name, currentDirectory);
     currentDirectory.addChild(newDirectory);
   }
 
-  String getCurrentPath(){
+  String getCurrentPath() {
     return currentDirectory.getPath();
   }
+
   void changeDirectory(String path) {
     String[] parts = path.split("/");
 

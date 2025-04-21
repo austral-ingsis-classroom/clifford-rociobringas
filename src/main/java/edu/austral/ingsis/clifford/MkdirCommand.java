@@ -3,7 +3,7 @@ package edu.austral.ingsis.clifford;
 public class MkdirCommand implements Command {
   private final String directoryName;
 
-  public MkdirCommand(String directoryName){
+  public MkdirCommand(String directoryName) {
     this.directoryName = directoryName;
   }
 

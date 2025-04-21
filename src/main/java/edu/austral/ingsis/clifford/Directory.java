@@ -17,12 +17,14 @@ public class Directory extends FileSystemElement {
   }
 
   public void addChild(FileSystemElement child) {
-    children.add(child); }
+    children.add(child);
+  }
 
   public void removeChild(FileSystemElement child) {
-    children.remove(child); }
+    children.remove(child);
+  }
 
   public List<FileSystemElement> listChildren() {
-    return children; }
-
+    return children;
+  }
 }

@@ -1,9 +1,9 @@
 package edu.austral.ingsis.clifford;
 
-public class TouchCommand implements Command{
+public class TouchCommand implements Command {
   private final String fileName;
 
-  public TouchCommand(String fileName){
+  public TouchCommand(String fileName) {
     this.fileName = fileName;
   }
 

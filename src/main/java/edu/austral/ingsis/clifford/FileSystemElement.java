@@ -9,12 +9,12 @@ public abstract class FileSystemElement {
   String name;
   Directory parent;
 
-  public FileSystemElement(String name, Directory parent){
+  public FileSystemElement(String name, Directory parent) {
     this.name = name;
     this.parent = parent;
   }
 
-  public String getName(){
+  public String getName() {
     return name;
   }
 
@@ -44,6 +44,4 @@ public abstract class FileSystemElement {
   }
 
   public abstract boolean isDirectory();
-
-
 }
