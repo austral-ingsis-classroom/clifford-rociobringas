@@ -1,9 +1,12 @@
 package edu.austral.ingsis.clifford;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class FileSystem {
-  private Directory root;
+  private final Directory root;
   private Directory currentDirectory;
 
   public FileSystem() {
@@ -11,70 +14,25 @@ public class FileSystem {
     this.currentDirectory = root;
   }
 
-  void createFile(String name) {
-    File newFile = new File(name, currentDirectory);
-    currentDirectory.addChild(newFile);
+  // agrego elemento (sin saber que es) al directory, no importa si es file o direc
+  public void addElement(FileSystemElement element) {
+    currentDirectory.addChild(element);
   }
 
-  void createDirectory(String name) {
-    Directory newDirectory = new Directory(name, currentDirectory);
-    currentDirectory.addChild(newDirectory);
+  // no me importa el path, solo cambio
+  public void setCurrentDirectory(Directory directory) {
+    this.currentDirectory = directory;
   }
 
-  String getCurrentPath() {
+  public Directory getCurrentDirectory() {
+    return currentDirectory;
+  }
+
+  public String getCurrentPath() {
     return currentDirectory.getPath();
   }
 
-  void changeDirectory(String path) {
-    String[] parts = path.split("/");
-
-    if (parts.length > 0 && parts[0].isEmpty()) { // Si empieza con "/", eliminar vacío
-      parts = Arrays.copyOfRange(parts, 1, parts.length);
-    }
-
-    Directory current = path.startsWith("/") ? root : currentDirectory;
-
-    if (parts.length == 0) {
-      currentDirectory = current;
-      return;
-    }
-
-    while (parts.length > 0) {
-      String element = parts[0];
-
-      if (element.equals(".")) {
-        parts = Arrays.copyOfRange(parts, 1, parts.length);
-        continue;
-      }
-
-      if (element.equals("..")) {
-        if (current.getParent() != null) {
-          current = current.getParent();
-        }
-        parts = Arrays.copyOfRange(parts, 1, parts.length);
-        continue;
-      }
-
-      boolean found = false;
-      for (FileSystemElement child : current.listChildren()) {
-        if (child.getName().equals(element) && child.isDirectory()) {
-          current = (Directory) child;
-          found = true;
-          break;
-        }
-      }
-
-      if (!found) {
-        throw new NoSuchElementException("'" + element + "' directory does not exist");
-      }
-
-      parts = Arrays.copyOfRange(parts, 1, parts.length);
-    }
-
-    currentDirectory = current;
-  }
-
-  public List<FileSystemElement> list(String order) {
+  public List<FileSystemElement> listElements(String order) {
     List<FileSystemElement> elements = new ArrayList<>(currentDirectory.listChildren());
 
     if (order == null) {
@@ -90,33 +48,21 @@ public class FileSystem {
     return elements;
   }
 
-  public void remove(String name, boolean recursive) {
-    FileSystemElement toRemove = null;
-
+  public FileSystemElement findElement(String name) {
     for (FileSystemElement child : currentDirectory.listChildren()) {
       if (child.getName().equals(name)) {
-        toRemove = child;
-        break;
+        return child;
       }
     }
-
-    if (toRemove == null) {
-      throw new NoSuchElementException("No such file or directory: " + name);
-    }
-
-    if (toRemove.isDirectory()) {
-      if (!recursive) {
-        throw new IllegalStateException("cannot remove '" + name + "', is a directory");
-      }
-      deleteDirectoryRecursively((Directory) toRemove);
-    }
-
-    currentDirectory.removeChild(toRemove);
+    throw new NoSuchElementException("No such file or directory: " + name);
   }
 
-  private void deleteDirectoryRecursively(Directory directory) {
-    List<FileSystemElement> children = new ArrayList<>(directory.listChildren());
+  public void removeElement(FileSystemElement element) {
+    currentDirectory.removeChild(element);
+  }
 
+  public void deleteDirectoryRecursively(Directory directory) {
+    List<FileSystemElement> children = new ArrayList<>(directory.listChildren());
     for (FileSystemElement child : children) {
       if (child.isDirectory()) {
         deleteDirectoryRecursively((Directory) child);
@@ -125,7 +71,7 @@ public class FileSystem {
     }
   }
 
-  public Directory getCurrentDirectory() {
-    return currentDirectory;
+  public Directory getRoot() {
+    return root;
   }
 }
