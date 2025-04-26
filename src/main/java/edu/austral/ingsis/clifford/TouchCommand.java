@@ -9,7 +9,8 @@ public class TouchCommand implements Command {
 
   @Override
   public String execute(FileSystem fileSystem) {
-    fileSystem.createFile(fileName);
+    File newFile = new File(fileName, fileSystem.getCurrentDirectory());
+    fileSystem.addElement(newFile);
     return "'" + fileName + "' file created";
   }
 }
