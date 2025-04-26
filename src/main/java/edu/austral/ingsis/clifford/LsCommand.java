@@ -11,16 +11,28 @@ public class LsCommand implements Command {
 
   @Override
   public String execute(FileSystem fileSystem) {
-    List<FileSystemElement> elements = fileSystem.list(order);
-    String result = "";
+    List<FileSystemElement> elements = fileSystem.listElements(order);
+    sortElements(elements);
+    return formatElements(elements);
+  }
 
+  private void sortElements(List<FileSystemElement> elements) {
+    if ("asc".equals(order)) {
+      elements.sort((a, b) -> a.getName().compareTo(b.getName()));
+    } else if ("desc".equals(order)) {
+      elements.sort((a, b) -> b.getName().compareTo(a.getName()));
+    }
+    // Si order es null, no hago nada (mantengo el orden original)
+  }
+
+  private String formatElements(List<FileSystemElement> elements) {
+    StringBuilder result = new StringBuilder();
     for (int i = 0; i < elements.size(); i++) {
-      result += elements.get(i).getName();
+      result.append(elements.get(i).getName());
       if (i < elements.size() - 1) {
-        result += " ";
+        result.append(" ");
       }
     }
-
-    return result;
+    return result.toString();
   }
 }
