@@ -16,6 +16,15 @@ public class Directory extends FileSystemElement {
     return true;
   }
 
+  public FileSystemElement findElementByName(String name) {
+    for (FileSystemElement child : children) {
+      if (child.getName().equals(name)) {
+        return child;
+      }
+    }
+    return null;
+  }
+
   public void addChild(FileSystemElement child) {
     children.add(child);
   }
