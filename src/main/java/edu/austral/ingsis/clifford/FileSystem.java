@@ -57,20 +57,6 @@ public class FileSystem {
     throw new NoSuchElementException("No such file or directory: " + name);
   }
 
-  public void removeElement(FileSystemElement element) {
-    currentDirectory.removeChild(element);
-  }
-
-  public void deleteDirectoryRecursively(Directory directory) {
-    List<FileSystemElement> children = new ArrayList<>(directory.listChildren());
-    for (FileSystemElement child : children) {
-      if (child.isDirectory()) {
-        deleteDirectoryRecursively((Directory) child);
-      }
-      directory.removeChild(child);
-    }
-  }
-
   public Directory getRoot() {
     return root;
   }
