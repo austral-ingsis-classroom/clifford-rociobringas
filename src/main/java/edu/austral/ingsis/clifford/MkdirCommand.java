@@ -9,7 +9,8 @@ public class MkdirCommand implements Command {
 
   @Override
   public String execute(FileSystem fileSystem) {
-    fileSystem.createDirectory(directoryName);
+    Directory newDirectory = new Directory(directoryName, fileSystem.getCurrentDirectory());
+    fileSystem.addElement(newDirectory);
     return "'" + directoryName + "' directory created";
   }
 }
