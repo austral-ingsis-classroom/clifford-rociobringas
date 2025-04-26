@@ -1,19 +1,26 @@
 package edu.austral.ingsis;
 
 import edu.austral.ingsis.clifford.*;
+
 import java.util.ArrayList;
 import java.util.List;
+// Ahora FileSystemRunner solo ejecuta
+// antes rompia con el principio de single responsability porque hacia dos cosas
+// (ejecutaba comando e interpetaba textos)
+// la parte de intepretar comandos la movi a command parcer, y ahora este solo ejectuta
+
 
 public class FileSystemRunner {
 
   private final FileSystem fileSystem = new FileSystem();
+  private final CommandParser commandParser = new CommandParser();
 
   public List<String> executeCommands(List<String> commands) {
     List<String> results = new ArrayList<>();
 
     for (String input : commands) {
       try {
-        Command command = parseCommand(input);
+        Command command = commandParser.parseCommand(input);
         String result = command.execute(fileSystem);
         results.add(result);
       } catch (Exception e) {
@@ -23,44 +30,10 @@ public class FileSystemRunner {
 
     return results;
   }
-
-  private Command parseCommand(String input) {
-    String[] parts = input.split(" ");
-
-    switch (parts[0]) {
-      case "ls":
-        String order = null;
-        if (parts.length > 1 && parts[1].startsWith("--ord=")) {
-          order = parts[1].substring("--ord=".length());
-        }
-        return new LsCommand(order);
-
-      case "mkdir":
-        return new MkdirCommand(parts[1]);
-
-      case "touch":
-        return new TouchCommand(parts[1]);
-
-      case "cd":
-        return new CdCommand(parts[1]);
-
-      case "pwd":
-        return new PwdCommand();
-
-      case "rm":
-        boolean recursive = false;
-        String name;
-
-        if (parts.length == 3 && parts[1].equals("--recursive")) {
-          recursive = true;
-          name = parts[2];
-        } else {
-          name = parts[1];
-        }
-        return new RmCommand(name, recursive);
-
-      default:
-        throw new IllegalArgumentException("Unknown command: " + parts[0]);
-    }
-  }
 }
+
+
+// inmutable
+// sacar logica en file system y ponerlo en los comandos , command parcer
+// si agrego x comando, no deberia cambiar el file system
+// ADT !OO
