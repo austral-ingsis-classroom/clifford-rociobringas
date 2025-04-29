@@ -56,7 +56,6 @@ public class FileSystem {
     }
     throw new NoSuchElementException("No such file or directory: " + name);
   }
-
   public Directory getRoot() {
     return root;
   }

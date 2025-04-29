@@ -33,7 +33,6 @@ public class FileSystemRunner {
 }
 
 
-// inmutable
+
 // sacar logica en file system y ponerlo en los comandos , command parcer
 // si agrego x comando, no deberia cambiar el file system
-// ADT !OO
